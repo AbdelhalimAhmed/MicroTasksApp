@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+import { EvilIcons, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -41,7 +41,14 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="MicroTaskDetails" component={MicroTaskDetails} options={{title: 'MicroTask Details'}}/>
+        <Stack.Screen
+          name="MicroTaskDetails"
+          component={MicroTaskDetails}
+          options={(props) => ({
+            title: 'MicroTask Details',
+            headerLeft: () => <EvilIcons onPress={() => props.navigation?.goBack()} name='close' size={30} color={'grey'} />
+          })}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
