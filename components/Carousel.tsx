@@ -6,6 +6,8 @@ type TaskType = {
   id: number;
   title: string;
   desc: string;
+  imageURL?: string;
+  videoURL?: string;
   type: 'video' | 'image' | 'news'
 };
 

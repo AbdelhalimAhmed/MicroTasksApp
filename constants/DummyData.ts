@@ -1,0 +1,1 @@
+export const DUMMY_IMAGE = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBKB-JqR0acSi8Tc5rj9WS6ExaVSFicKSw7A&usqp=CAU'

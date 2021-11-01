@@ -3,6 +3,7 @@ import * as React from 'react';
 import { StyleSheet, Image, Pressable } from 'react-native';
 
 import { Text, View } from '../components/Themed';
+import { DUMMY_IMAGE } from '../constants/DummyData';
 import { RootTabScreenProps } from '../types';
 
 /* TODO-LIST:
@@ -20,7 +21,7 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     <View style={styles.container}>
       <Text style={styles.header}>Micro Tasks:</Text>
       <Pressable onPress={() => navigate('MicroTaskDetails')} style={styles.card}>
-        <Image style={styles.image} source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBKB-JqR0acSi8Tc5rj9WS6ExaVSFicKSw7A&usqp=CAU'}} />
+        <Image style={styles.image} source={{uri: DUMMY_IMAGE}} />
         <View style={styles.details}>
           <Text style={styles.title}>Taking Care of your personal mindset</Text>
           <Text style={styles.desc}>Learn more about mindset</Text>
