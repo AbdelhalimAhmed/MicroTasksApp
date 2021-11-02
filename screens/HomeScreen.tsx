@@ -10,9 +10,9 @@ import { RootTabScreenProps } from '../types';
    1. [x] create home screen and navigation (0.30)
    2. [x] create micro task card (0.30)
    3. [x] create micro task detail screen (0.30)
-   4. [ ] create carousel including content of tasks (1.30)
-   5. [ ] integrate recoding package
-   6. [ ] record audio and caching it
+   4. [x] create carousel including content of tasks (1.30)
+   5. [x] integrate recoding package (0.30)
+   6. [x] record audio and caching it (0.30)
    7. [ ] integrate context API to manage state to handle progress of micro task
 */
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {

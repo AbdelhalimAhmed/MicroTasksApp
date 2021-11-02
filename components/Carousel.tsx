@@ -8,7 +8,7 @@ type TaskType = {
   desc: string;
   imageURL?: string;
   videoURL?: string;
-  type: 'video' | 'image' | 'news'
+  type: 'video' | 'image' | 'news' | 'record'
 };
 
 type CarouselProps = {
