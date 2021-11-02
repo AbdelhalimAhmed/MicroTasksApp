@@ -29,10 +29,7 @@ const Carousel: React.FC<CarouselProps> = ({ data, renderCarouselItem, onVisible
     return () => onVisibleItem(currentProgress)
   }, [currentProgress]);
 
-  const renderItem: React.FC<{ item: TaskType, index: number }> = useCallback(
-    ({ item, index }) => <View style={styles.card}>{renderCarouselItem(item, index)}</View>,
-    [data],
-  );
+  const renderItem: React.FC<{ item: TaskType, index: number }> = ({ item, index }) => <View style={styles.card}>{renderCarouselItem(item, index)}</View>
   
   const onViewRef = React.useCallback(({ viewableItems }: any) => {
     setCurrentProgress(viewableItems[0]?.index)

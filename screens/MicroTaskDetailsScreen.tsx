@@ -10,6 +10,7 @@ import TasksContext, { TasksContextType } from '../context/tasks';
 export default function MicroTaskDetailsScreen() {
   const video = useRef(null);
   const [recordingState, setRecording] = useState<Recording | undefined | null >();
+  const [recordURL, setRecordURL] = React.useState("");
   const [sound, setSound] = React.useState();
   const tasksContext = React.useContext<TasksContextType>(TasksContext);
 
@@ -38,15 +39,18 @@ export default function MicroTaskDetailsScreen() {
     await recordingState?.stopAndUnloadAsync();
     const uri = recordingState?.getURI(); 
     console.log('Recording stopped and stored at', uri);
+    setRecordURL(uri);
   }
 
   const playSound = async () =>  {
     console.log('Loading Sound');
     const { sound } = await Audio.Sound.createAsync(
-      {uri: 'file:///var/mobile/Containers/Data/Application/42DDD0AC-4E05-4773-B179-9FC55DA5155C/Library/Caches/ExponentExperienceData/%2540anonymous%252FSharpistMicroTask-34cee6bd-f01a-41c5-aea9-1808db0185f6/AV/recording-17876E6B-A9AC-4A83-AFA4-DFC203F0A95B.m4a'}
+      { uri: recordURL },
     );
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false
+    })
     setSound(sound);
-
     console.log('Playing Sound');
     await sound.playAsync();
   };
@@ -70,7 +74,7 @@ export default function MicroTaskDetailsScreen() {
                     ref={video}
                     style={styles.video}
                     source={{
-                      uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                      uri: item.videoURL ?? "",
                     }}
                     useNativeControls
                     resizeMode="contain"
@@ -88,7 +92,7 @@ export default function MicroTaskDetailsScreen() {
             case 'record':
               return (
                 <>
-                  <Button title="Play your Record" onPress={playSound} />
+                  {Boolean(recordURL) && <Button title="Play your Record" onPress={playSound} />}
                   <Button
                     color={recordingState ? 'red' : ''}
                     title={recordingState ? 'Stop Recording' : 'Start Recording'}
