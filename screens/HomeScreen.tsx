@@ -13,8 +13,11 @@ import { RootTabScreenProps } from '../types';
    4. [x] create carousel including content of tasks (1.30)
    5. [x] integrate recoding package (0.30)
    6. [x] record audio and caching it (0.30)
-   7. [ ] integrate context API to manage state to handle progress of micro task
+   7. [x] integrate context API to manage state to handle progress of micro task (1.30)
+   8. [x] handle progress (0.30)
+   9. [ ] handle recorder audios // sorry i didn't handle it, cause my time is over to do the task, we could discuss it on Next Meeting
 */
+
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
    const {navigate} = useNavigation()
   return (

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactNode, useCallback } from 'react';
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, FlatList, StyleSheet, View } from 'react-native';
 const TOTAL_ITEM_WIDTH = Dimensions.get('screen').width;
 
 type TaskType = {
@@ -18,17 +18,34 @@ type CarouselProps = {
     title: string;
     progress: number;
   };
-  renderCarouselItem: (item: TaskType, index: number) => ReactNode
+  renderCarouselItem: (item: TaskType, index: number) => ReactNode,
+  onVisibleItem: (index: number) => void
 };
 
-const Carousel: React.FC<CarouselProps> = ({ data, renderCarouselItem }) => {
+const Carousel: React.FC<CarouselProps> = ({ data, renderCarouselItem, onVisibleItem }) => {
+  const [currentProgress, setCurrentProgress] = React.useState(data.progress);
+
+  React.useEffect(() => {
+    return () => onVisibleItem(currentProgress)
+  }, [currentProgress]);
+
   const renderItem: React.FC<{ item: TaskType, index: number }> = useCallback(
     ({ item, index }) => <View style={styles.card}>{renderCarouselItem(item, index)}</View>,
     [data],
   );
+  
+  const onViewRef = React.useCallback(({ viewableItems }: any) => {
+    setCurrentProgress(viewableItems[0]?.index)
+  }, []);
+
+  const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 })
+
   return (
     <>
       <FlatList
+        initialScrollIndex={currentProgress}
+        onViewableItemsChanged={onViewRef}
+        viewabilityConfig={viewConfigRef.current}
         data={data?.tasks}
         renderItem={renderItem}
         horizontal

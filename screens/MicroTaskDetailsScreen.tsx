@@ -4,17 +4,16 @@ import Carousel from '../components/Carousel';
 import { Video, Audio } from 'expo-av';
 
 import { Text, View } from '../components/Themed';
-import { DUMMY_IMAGE } from '../constants/DummyData';
 import { Recording } from 'expo-av/build/Audio';
+import TasksContext, { TasksContextType } from '../context/tasks';
 
 export default function MicroTaskDetailsScreen() {
   const video = useRef(null);
   const [recordingState, setRecording] = useState<Recording | undefined | null >();
   const [sound, setSound] = React.useState();
+  const tasksContext = React.useContext<TasksContextType>(TasksContext);
 
-
-
-  async function startRecording() {
+  const startRecording = async () => {
     try {
       console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
@@ -33,7 +32,7 @@ export default function MicroTaskDetailsScreen() {
     }
   }
 
-  async function stopRecording() {
+  const stopRecording = async () => {
     console.log('Stopping recording..');
     setRecording(undefined);
     await recordingState?.stopAndUnloadAsync();
@@ -41,7 +40,7 @@ export default function MicroTaskDetailsScreen() {
     console.log('Recording stopped and stored at', uri);
   }
 
-  async function playSound() {
+  const playSound = async () =>  {
     console.log('Loading Sound');
     const { sound } = await Audio.Sound.createAsync(
       {uri: 'file:///var/mobile/Containers/Data/Application/42DDD0AC-4E05-4773-B179-9FC55DA5155C/Library/Caches/ExponentExperienceData/%2540anonymous%252FSharpistMicroTask-34cee6bd-f01a-41c5-aea9-1808db0185f6/AV/recording-17876E6B-A9AC-4A83-AFA4-DFC203F0A95B.m4a'}
@@ -51,10 +50,15 @@ export default function MicroTaskDetailsScreen() {
     console.log('Playing Sound');
     await sound.playAsync();
   };
-  
-  return (
+
+  const updateProgress = (progress: number) => {
+    tasksContext.updateProgress(1, progress)
+  }
+
+    return (
     <View style={styles.container}>
       <Carousel
+        onVisibleItem={updateProgress}
         renderCarouselItem={(item, index) => {
           switch (item.type) {
             case 'image':
@@ -97,39 +101,7 @@ export default function MicroTaskDetailsScreen() {
           }
         }}
         data={
-        {
-          tasks: [
-            {
-              id: 1,
-              title: 'test title for news',
-              desc: 'some description about test news card',
-              type: 'news' 
-            },
-            {
-              id: 2,
-              title: 'test title for video',
-              desc: 'some description about test video card',
-              videoURL: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-              type: 'video',
-            },
-            {
-              id: 3,
-              title: 'test title for image',
-              desc: 'some description about test image card',
-              imageURL: DUMMY_IMAGE,
-              type: 'image'
-            },
-            {
-              id: 4,
-              title: 'Record Audio',
-              desc: 'recode audio response',
-              type: 'record'
-            }
-          ],
-          progress: 0,
-          id: 1,
-          title: 'Task 1'
-        }
+          tasksContext?.data[0]
       }/>
     </View>
   );
